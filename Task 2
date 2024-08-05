@@ -1,0 +1,77 @@
+ The chatbot will recognize user intents based on keyword matching and respond with predefined answers:
+
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+import string
+
+# Sample FAQ dataset
+faq_data = {
+    "hours": "We are open from 9 AM to 5 PM, Monday through Friday.",
+    "location": "Our main office is located at 123 Main Street, Springfield.",
+    "services": "We offer a variety of services including web development, SEO, and digital marketing.",
+    "contact": "You can contact us at contact@example.com or call us at 123-456-7890."
+}
+
+# Initialize NLP tools
+lemmatizer = WordNetLemmatizer()
+stop_words = set(stopwords.words('english'))
+
+# Preprocess text
+def preprocess_text(text):
+    text = text.lower()  # Lowercase the text
+    tokens = word_tokenize(text)  # Tokenize the text
+    tokens = [word for word in tokens if word not in stop_words and word not in string.punctuation]
+    tokens = [lemmatizer.lemmatize(word) for word in tokens]
+    return tokens
+
+# Define a function to find the intent
+def find_intent(user_input):
+    tokens = preprocess_text(user_input)
+    for token in tokens:
+        if token in faq_data:
+            return token
+    return None
+
+# Chatbot interaction
+def chatbot_response(user_input):
+    intent = find_intent(user_input)
+    if intent:
+        return faq_data[intent]
+    else:
+        return "Sorry, I didn't understand your question. Can you please rephrase?"
+
+# Example usage
+user_inputs = [
+    "What are your opening hours?",
+    "Where is your location?",
+    "Tell me about your services.",
+    "How can I contact you?",
+    "What is the meaning of life?"
+]
+
+for user_input in user_inputs:
+    response = chatbot_response(user_input)
+    print(f"User: {user_input}")
+    print(f"Bot: {response}\n")
+
+
+
+
+OUTPUT :
+User: What are your opening hours?
+Bot: We are open from 9 AM to 5 PM, Monday through Friday.
+
+User: Where is your location?
+Bot: Our main office is located at 123 Main Street, Springfield.
+
+User: Tell me about your services.
+Bot: We offer a variety of services including web development, SEO, and digital marketing.
+
+User: How can I contact you?
+Bot: You can contact us at contact@example.com or call us at 123-456-7890.
+
+User: What is the meaning of life?
+Bot: Sorry, I didn't understand your question. Can you please rephrase?
+
