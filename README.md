@@ -1,6 +1,7 @@
 # codealpha_task2
 
 OVERVIEW OF THE PROJECT :
+
 Project Name: FAQ Chatbot
 
 OBJECTIVE :
